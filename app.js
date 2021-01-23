@@ -1,7 +1,7 @@
 var express = require('express'),
 	app = express(),
 	server = require('http').createServer(app),
-	io = require('socket.io').listen(server),
+	io = require("socket.io")(server, {}),
 	nicknames = [];
 
 server.listen(3000);
@@ -28,7 +28,7 @@ io.sockets.on('connection',function(socket) {
 	})
 
 	socket.on('disconnect',function(data) {
-		if(!socket.nickname) retrun;	
+		if(!socket.nickname) return;
 
 		nicknames.splice(nicknames.indexOf(socket.nickname),1);
 		io.sockets.emit('currently',{list : nicknames});
